@@ -1,4 +1,5 @@
-# SIT215 – Computational Intelligence  
+# SIT215 – Computational Intelligence
+
 ## Assignment 3: Integrated Intelligent System
 
 Hi, this repository contains my Assignment 3 project for SIT215.
@@ -7,145 +8,132 @@ The goal of this project was to build a delivery routing system in the Melbourne
 
 ---
 
-##  What this project does
+## What this project does
 
 The system finds a route from a starting location to a destination while also considering safety.
 
 Instead of only finding the shortest path, it adjusts its behaviour based on:
-- how fragile the cargo is  
-- how rough the road is  
-- whether conditions change during the trip  
+
+- how fragile the cargo is
+- how rough the road is
+- whether conditions change during the trip
+
+The project combines:
+
+- A\* search for route planning
+- Fuzzy logic for safe speed calculation
+- Replanning for changed road conditions
 
 ---
 
-##  How the system works
+## How the system works
 
-### 1. Baseline A* Search
+### 1. Baseline A\* Search
 
-I first built a basic A* route planner using a graph with 20 nodes.
+I first built a basic A\* route planner using a graph with 20 nodes and 37 edges.
 
-Each node represents a location, and each edge represents a road.
+Each node represents a Melbourne CBD location, and each edge represents a road segment.
 
-- Constant speed: 100 km/h  
-- Heuristic: straight-line distance  
-- Resulting route:  
-  `N1 → N3 → N5 → N10 → N9`
+- Constant speed: 100 km/h
+- Heuristic: straight-line distance
+- Resulting route: `N1 → N3 → N5 → N10 → N9`
 
 This gives a simple reference point before adding more realistic behaviour.
 
 ---
 
-### 2. Fuzzy Logic (Safe Speed)
+### 2. Fuzzy Logic: Safe Speed
 
 I then added a fuzzy system to calculate safe driving speed.
 
 Inputs:
-- Cargo fragility (low / medium / high)
-- Road bumpiness (smooth / moderate / rough)
+
+- Cargo fragility: low, medium, high
+- Road bumpiness: smooth, moderate, rough
 
 Output:
-- Maximum safe speed (40–100 km/h)
+
+- Maximum safe speed: 40–100 km/h
 
 Example:
-- Fragility = 7, Bumpiness = 6  
-→ Safe speed ≈ 50 km/h  
+
+- Fragility = 7
+- Bumpiness = 6
+- Safe speed ≈ 50.71 km/h
 
 ---
 
 ### 3. Integrated System
 
-The fuzzy speed is combined with A*.
+The fuzzy safe speed is combined with A\* search.
 
-Instead of:
+Instead of using:
 
+```text
 time = distance / 100
 
-
-the system uses:
+the integrated system uses:
 
 time = distance / fuzzy_safe_speed
 
+This makes the route planning more realistic because speed is no longer fixed. The route cost changes depending on cargo fragility and road bumpiness.
 
-This makes the route planning more realistic because speed is no longer fixed.
+4. Replanning: Adaptive Behaviour
 
----
+To simulate a real-world change, I added a school-zone condition.
 
-### 4. Replanning (Adaptive Behaviour)
-
-To simulate real-world change, I added a school-zone condition.
-
-- After 20% of the route  
-- 60% of edges are limited to 40 km/h  
+After 20% of the route
+60% of graph edges are limited to 40 km/h
 
 In my implementation, the change is triggered right after the initial route is calculated, so the system replans from N1.
 
 The system then:
-- updates speeds  
-- recalculates the route  
-- adapts to the new environment  
 
----
+updates safe speeds
+recalculates the route
+adapts to the changed environment
+What I observed
+The route often stays the same, but the travel time increases as cargo becomes more fragile.
+In some cases, replanning changes the path.
+In other cases, the path stays the same but becomes slower.
 
-## 📊 What I observed
+This shows that the system is adapting, not just following a fixed plan.
 
-- The route often stays the same, but the travel time increases as cargo becomes more fragile  
-- In some cases, replanning changes the path  
-- In other cases, the path stays the same but becomes slower  
+## Requirements
 
-This shows that the system is adapting, not just following a fixed plan  
+This project uses Python 3 and the following libraries:
 
----
+pip install numpy pandas matplotlib networkx
 
-##  How to run
+Jupyter Notebook is also required to run the .ipynb file.
 
-1. Open one of the notebooks depending on the task:
+## How to run
+Open the notebook:
+SIT215_Assignment3_Notebook_JinKim.ipynb
+Run all cells from top to bottom.
+Check the outputs for:
+baseline A* route
+fuzzy safe speed result
+integrated A* comparison
+school-zone replanning result
 
-- Sit215task1.ipynb (Baseline A*)
-- Sit215task2.ipynb (Fuzzy system)
-- Sit215task3.ipynb (Integrated system)
+## Files in this repo
 
-2. Run all cells step by step
-
-3. Check:
-- route outputs  
-- fuzzy speed results  
-- replanning results  
-
-2. Run all cells step by step
-
-3. Check:
-- route outputs  
-- fuzzy speed results  
-- replanning results  
-
----
-
-##  Files in this repo
-
-- `Sit215task1.ipynb` – baseline A* implementation  
-- `Sit215task2.ipynb` – fuzzy logic system  
-- `Sit215task3.ipynb` – integrated system with replanning  
-- `Assignment3_Report.pdf` – final report  
-- `README.md` – this file  
----
-##  What I learned
-
+- Notebook file – includes baseline A*, fuzzy logic, integration, and replanning
+- Final report PDF – contains the full written report
+- README.md – this file
 This project helped me understand how different AI techniques can work together.
 
-- A* handles planning  
-- Fuzzy logic handles uncertainty  
-- Replanning handles change  
+A* handles route planning.
+Fuzzy logic handles uncertainty.
+Replanning handles environmental change.
 
 Putting them together made the system more realistic compared to a simple baseline model.
 
----
+Notes
+The 100 km/h speed is only used as a baseline for comparison.
+This is a simplified simulation, not a real traffic system.
+The school-zone replanning condition is simulated for assignment purposes.
 
-##  Notes
-
-- The 100 km/h speed is only used as a baseline for comparison  
-- This is a simplified simulation, not a real traffic system  
-
----
-
-Thanks for reading 🙂
-All three tasks (baseline, fuzzy system, and integration) are included in this repository and can be run independently.
+Thanks for reading.
+```
