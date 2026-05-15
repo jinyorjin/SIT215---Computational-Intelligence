@@ -4,7 +4,7 @@
 
 Hi, this repository contains my SIT215 Assignment 3 project.
 
-This project implements an integrated intelligent delivery-routing system for the Melbourne CBD. The system combines A* search, fuzzy logic, and reactive replanning to find a route while also considering cargo safety and changed road conditions.
+This project implements an integrated intelligent delivery-routing system for the Melbourne CBD. The system combines A\* search, fuzzy logic, and reactive replanning to find a route while also considering cargo safety and changed road conditions.
 
 ---
 
@@ -21,15 +21,28 @@ However, instead of only using physical distance, the system also considers:
 
 The project combines three main computational intelligence components:
 
-- **A* search** for route planning
+- **A\* search** for route planning
 - **Fuzzy logic** for maximum safe-speed calculation
 - **Reactive replanning** for changed environmental conditions
 
 ---
 
-## 1. Baseline A* Search
+## Assignment 3 Design Refinements
 
-The first part of the project implements a baseline A* route planner.
+This project reuses my Assignment 1 Melbourne CBD graph, but it is refined for Assignment 3 in several ways:
+
+- The original abstract edge costs are not used directly as A\* travel-time costs. Instead, they are converted into bumpiness values for the fuzzy logic system.
+- The baseline A\* planner uses distance-based travel time with a constant 100 km/h speed, creating a controlled comparison point.
+- The fuzzy system calculates a safe speed from cargo fragility and road bumpiness, then passes this value into A\* as part of the edge cost.
+- The heuristic remains conservative by using straight-line distance divided by the maximum model speed, which supports admissibility under the defined model.
+- The replanning component updates edge costs when school-zone constraints appear and re-runs A\* from the current node.
+- Evaluation tables compare the baseline, fuzzy-integrated, and replanned results across low, medium, and high cargo fragility.
+
+These refinements show how the system moves from a simple route-planning graph into an integrated intelligent system.
+
+## 1. Baseline A\* Search
+
+The first part of the project implements a baseline A\* route planner.
 
 The environment is represented as a Melbourne CBD graph with:
 
@@ -74,9 +87,9 @@ The rule base follows a safety-focused idea: as fragility or bumpiness increases
 
 ---
 
-## 3. Integrated A* System
+## 3. Integrated A\* System
 
-The fuzzy safe speed is then integrated into A* search.
+The fuzzy safe speed is then integrated into A\* search.
 
 Instead of using the baseline cost:
 
@@ -106,7 +119,7 @@ In this scenario:
 - after 20% of the route is reached, the environment changes
 - 60% of graph edges are selected as school-zone constrained edges
 - constrained edges are capped at 40 km/h
-- A* replans from the current node using the updated edge costs
+- A\* replans from the current node using the updated edge costs
 
 A fixed random seed is used so that the constrained edges are reproducible.
 
@@ -118,11 +131,12 @@ In this implementation, the original route is short, so the 20% trigger occurs v
 
 The results show that:
 
-- the baseline A* system provides a useful reference route
+- the baseline A\* system provides a useful reference route
 - fuzzy logic increases travel time as cargo fragility increases
 - replanning can change the selected path under school-zone constraints
 - in some cases, the path stays the same but the travel time increases
 - the system adapts to changed conditions instead of following a fixed original plan
+  The main result is that the system does not simply follow the shortest or fastest-looking route. It updates route costs using fuzzy safe-speed reasoning and reacts when the environment changes, which makes the behaviour more explainable and adaptive.
 
 Overall, the integrated system is more safety-aware than the baseline model because it considers both route efficiency and delivery risk.
 
@@ -154,10 +168,10 @@ SIT215_Assignment3_Notebook_JinKim.ipynb
 
 3. Review the outputs for:
 
-- baseline A* route
+- baseline A\* route
 - fuzzy membership functions
 - defuzzification example
-- integrated A* comparison
+- integrated A\* comparison
 - edge safe-speed examples
 - school-zone replanning results
 - route visualisations and flowchart
@@ -175,9 +189,9 @@ Final report PDF
 The notebook includes the full implementation for:
 
 - graph environment construction
-- baseline A* search
+- baseline A\* search
 - fuzzy inference system
-- integrated A* planning
+- integrated A\* planning
 - school-zone replanning
 - tables and figures used in the report
 
@@ -194,7 +208,7 @@ The notebook includes the full implementation for:
 
 ## Acknowledgement
 
-This project reuses and extends my previous SIT215 Assignment 1 graph model and Assignment 2 fuzzy logic design. I adapted them for Assignment 3 by adding distance-based A* search, fuzzy safe-speed calculation, integrated route planning, and reactive replanning.
+This project reuses and extends my previous SIT215 Assignment 1 graph model and Assignment 2 fuzzy logic design. I adapted them for Assignment 3 by adding distance-based A\* search, fuzzy safe-speed calculation, integrated route planning, and reactive replanning.
 
 ---
 
