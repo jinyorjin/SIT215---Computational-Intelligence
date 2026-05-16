@@ -136,6 +136,7 @@ The results show that:
 - replanning can change the selected path under school-zone constraints
 - in some cases, the path stays the same but the travel time increases
 - the system adapts to changed conditions instead of following a fixed original plan
+
   The main result is that the system does not simply follow the shortest or fastest-looking route. It updates route costs using fuzzy safe-speed reasoning and reacts when the environment changes, which makes the behaviour more explainable and adaptive.
 
 Overall, the integrated system is more safety-aware than the baseline model because it considers both route efficiency and delivery risk.
@@ -161,7 +162,7 @@ The project is designed to run in **Jupyter Notebook**.
 1. Open the notebook file:
 
 ```text
-SIT215_Assignment3_Notebook_JinKim.ipynb
+223715707.ipynb
 ```
 
 2. Run all cells from top to bottom.
@@ -181,9 +182,9 @@ SIT215_Assignment3_Notebook_JinKim.ipynb
 ## Files in This Repository
 
 ```text
-SIT215_Assignment3_Notebook_JinKim.ipynb
-README.md
-Final report PDF
+223715707.ipynb
+223715707_README.md
+223715707_assign3integratedsystem_report.pdf
 ```
 
 The notebook includes the full implementation for:
@@ -208,7 +209,7 @@ The notebook includes the full implementation for:
 
 ## Acknowledgement
 
-This project reuses and extends my previous SIT215 Assignment 1 graph model and Assignment 2 fuzzy logic design. I adapted them for Assignment 3 by adding distance-based A\* search, fuzzy safe-speed calculation, integrated route planning, and reactive replanning.
+This project reuses and refines my previous SIT215 Assignment 1 graph model and A* planning structure, and my Assignment 2 fuzzy logic design, as starting points. For Assignment 3, I adapted these components by adding distance-based travel-time costs, fuzzy safe-speed calculation, integrated A* edge costs, school-zone constraints, reactive replanning, and comparative evaluation.
 
 ---
 
